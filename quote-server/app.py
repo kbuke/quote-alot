@@ -1,10 +1,11 @@
 from config import api, app 
 
-from resources.Author import AuthorList
+from resources.Author import AuthorList, Author
 
-from resources.book import BookList
+from resources.Book import BookList
 
 api.add_resource(AuthorList, "/authors")
+api.add_resource(Author, "/authors/<int:id>")
 
 api.add_resource(BookList, "/books")
 

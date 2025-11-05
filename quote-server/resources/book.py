@@ -1,7 +1,7 @@
 from flask import make_response, session, request
 from flask_restful import Resource
 
-from models.Book import BookModel
+from models.BookModel import BookModel
 
 from config import db 
 
