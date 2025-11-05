@@ -12,7 +12,6 @@ class AuthorList(Resource):
     
     def post(self):
         json = request.get_json()
-        breakpoint()
         if json:
             try:
                 new_author = AuthorModel(

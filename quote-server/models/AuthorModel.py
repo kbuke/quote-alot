@@ -17,6 +17,10 @@ class AuthorModel(db.Model, SerializerMixin):
     # SET UP RELATION WITH BOOKS THEY HAVE WROTE
     books = db.relationship("BookModel", back_populates = "author", cascade = "all, delete-orphan")
 
+    serialize_rules = (
+        "-books.author",
+    )
+
     @validates("birth_date", "death_date")
     def validate_dates(self, key, value):
         # 1 - Check if dates have been inputted
