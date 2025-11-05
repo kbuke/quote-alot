@@ -1,0 +1,30 @@
+from models.AuthorModel import AuthorModel
+
+from flask import make_response, session, request
+from flask_restful import Resource
+
+from config import db
+
+class AuthorList(Resource):
+    def get(self):
+        authors = [author.to_dict() for author in AuthorModel.query.all()]
+        return authors, 201 
+    
+    def post(self):
+        json = request.get_json()
+        if json:
+            try:
+                new_author = AuthorModel(
+                    name = json.get("authorName"),
+                    img = json.get("authorImg"),
+                    nationality = json.get("nationality"),
+                    birth_date = json.get("birthday"),
+                    death_date = json.get("deathDay"),
+                    intro = json.get("authorIntro")
+                )
+                db.session.add(new_author)
+                db.session.commit()
+                return new_author.to_dict(), 201 
+            
+            except ValueError as e:
+                return{"error": [str(e)]}, 400
