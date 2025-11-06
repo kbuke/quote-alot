@@ -10,3 +10,10 @@ class TopicModel(db.Model, SerializerMixin):
     head_image = db.Column(db.String, nullable = False)
     intro = db.Column(db.String)
 
+    # Set up many-to-many relation with books
+    books = db.relationship("BookModel", back_populates = "topics", secondary = "book_topics")
+
+    serialize_rules = (
+        "-books.topics",
+        "-books.author",
+    )

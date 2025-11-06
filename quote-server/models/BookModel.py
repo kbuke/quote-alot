@@ -18,8 +18,11 @@ class BookModel(db.Model, SerializerMixin):
     author_id = db.Column(db.ForeignKey("authors.id"))
     author = db.relationship("AuthorModel", back_populates = "books")
 
+    topics = db.relationship("TopicModel", back_populates = "books", secondary = "book_topics")
+
     serialize_rules = (
         "-author.books",
+        "-topics.books",
     )
 
     @validates("author_id", "publication_date")
@@ -42,8 +45,9 @@ class BookModel(db.Model, SerializerMixin):
         publication_date = value if key == "publication_date" else self.publication_date
 
         if author_id:
+            breakpoint()
             existing_author = AuthorModel.query.filter(AuthorModel.id == author_id).first()
-            if existing_author and publication_date <= existing_author.birth_date:
+            if existing_author and existing_author.birth_date and publication_date <= existing_author.birth_date:
                 raise ValueError("The publication date must be after the authors birth")
         
         return value

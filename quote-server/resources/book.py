@@ -12,7 +12,6 @@ class BookList(Resource):
     
     def post(self):
         json = request.get_json()
-        breakpoint()
         if json:
             try:
                 new_book = BookModel(
